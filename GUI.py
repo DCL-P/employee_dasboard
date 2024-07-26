@@ -3,6 +3,11 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 import csv
+import sqlite3
+
+#connection met de database
+conn = sqlite3.connect('werknemers_data.db')
+c = conn.cursor()
 
 customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("dark-blue")
@@ -64,6 +69,9 @@ def register_employees():
     with open('werknemers.csv', mode='a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow([werknemersid, name, functie, gender, status])
+
+    c.execute(f"INSERT INTO users VALUES(:werknemersid, :name, :functie, :gender, :status)",{'werknemersid':werknemersid, 'name':name, 'functie':functie, 'gender':gender, 'status':status} )
+    conn.commit()
 
     messagebox.showinfo("Succes", "Werknemer succesvol doorgevoerd in systeem.")
 
