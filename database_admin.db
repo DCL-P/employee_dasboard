@@ -1,0 +1,8 @@
+import sqlite3
+
+conn = sqlite3.connect('werknemers_data.db')
+c = conn.cursor()
+c.execute("SELECT * FROM users")
+conn.commit()
+results = c.fetchall()
+print(results)
